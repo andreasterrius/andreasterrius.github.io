@@ -6,7 +6,7 @@ categories: []
 tags: [graphics, debugging]
 ---
 
-In [SDF exploration pt 1](_posts/2024-07-21-sdf-exploration-pt-1.md), I mentioned that using dot(faceNormal, sdfPoint) doesn't work that well to determine the sign of the SDF. 
+In [SDF exploration pt 1]({% post_url 2024-07-21-sdf-exploration-pt-1 %}), I mentioned that using dot(faceNormal, sdfPoint) doesn't work that well to determine the sign of the SDF. 
 
 I am changing the idea to trace upwards from sdfPoint. If intersection count is even it's inside otherwise it's outside.
  ![Intersect idea](../assets/img/post_img/2024-07-26-debugging-sdf/intersect-idea.png)
