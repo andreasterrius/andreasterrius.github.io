@@ -19,6 +19,9 @@ However, I quickly run into issues where there are outside points that is treate
 
 This should be in OUT sdfPoint because it goes through 2 face (bottom and top), but in reality it is considered as an IN sdfPoint because it intersects with 3 triangles (1 bottom and 2 top tris). This is because the sdfpoint traces through the line of the top triangle, hence it is counted as 2 intersections.
 
-I have some ideas on how to fix this (finding distance between 2 intersection points, if it's too close then we just reject such point). Will update the result here later.
+I have some ideas on how to fix this (finding distance between 2 intersection points, if it's too close then we just reject such point).
+
+-- Update (07 Oct 2024):
+I forgot to update before I left this, but I managed to reject points that are too close by just comparing if the distance of the intersection point. If they are closer than 0.0001 then the intersection point is rejected. This seem to work quite well!
 
 ----
