@@ -1,14 +1,14 @@
 ---
 title: Generating SDF on compute shader 
 author: andreas
-date: 2024-10-07 13:00:00 +0900
+date: 2024-10-06 13:00:00 +0900
 categories: []
 tags: [graphics, debugging]
 ---
 Since generating the SDF in CPU is quite slow, we're going to move the generation of the SDF 3D Texture to the GPU. I will be using the compute shader to do this, while also trying to learn how to use them.
 
 I am planning to use the compute shader such as this.
-![Debugging](../assets/img/post_img/2024-10-07-sdf-generate-on-compute-shader/worksplit.png).
+![Debugging](../assets/img/post_img/2024-10-06-sdf-generate-on-compute-shader/worksplit.png).
 
 Inside the a work local group, we will:
 1. Find the shortest distance to a triangle for the given triangle (range: [a,b])
