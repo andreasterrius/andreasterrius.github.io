@@ -3,7 +3,7 @@ title: Debugging SDF Issues
 author: andreas
 date: 2024-07-26 13:00:00 +0900
 categories: []
-tags: [graphics, debugging]
+tags: [graphics, sdf, debugging]
 ---
 
 In [SDF exploration pt 1]({% post_url 2024-07-21-sdf-exploration-pt-1 %}), I mentioned that using dot(faceNormal, sdfPoint) doesn't work that well to determine the sign of the SDF. 
