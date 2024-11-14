@@ -1,7 +1,7 @@
 ---
-title: Generating SDF on compute shader - Done! 
+title: Generating SDF on compute shader done!  
 author: andreas
-date: 2024-11-15 04:00:00 +0900
+date: 2024-11-15 02:00:00 +0900
 categories: []
 tags: [graphics, sdf, compute-shader]
 ---
@@ -14,6 +14,6 @@ Here is the result of the SDF generation!
 
 The result looks quite clean to me but I will try with other meshes before making full judgement on this.
 
-As for the code, I did use some SDF/math functions from the web directly, so I'm not sure whether it's ok to just publish it as is (I wrote the compute shader 3d texture generation and raymarch logic else myself though).
+As for the code, I did use some SDF/math functions from the web directly, so I'm not sure whether it's ok to just publish it as is (I wrote the comphttps://andreasterrius.github.io/ute shader 3d texture generation and raymarch logic else myself though).
 
 ---
