@@ -1,7 +1,7 @@
 ---
 title: Packing 3D SDF to a 2D Texture  
 author: andreas
-date: 2024-11-25 0:00:00 +0900
+date: 2024-11-25 3:00:00 +0900
 categories: []
 tags: [graphics, sdf, raymarch]
 ---
