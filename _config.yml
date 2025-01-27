@@ -16,17 +16,17 @@ timezone: Asia/Tokyo
 
 title: Andreas Terrius # the main title
 
-tagline: Rambling of code # it will display as the sub-title
+tagline: A blog dedicated towards exploring graphics programming, data analytics, machine learning and so forth with zig and C++. # it will display as the sub-title
 
 description: >- # used by seo meta and the atom feed
-  Rambling of code from a (somewhat sane) programmer.
+  A blog dedicated towards researching graphics programming topics such as mesh distance fields, raymarching, raytracing. Mainly uses C++ and Zig programming language. 
 
 # Fill in the protocol & hostname for your site.
 # e.g. 'https://username.github.io', note that it does not end with a '/'.
 url: ""
 
 github:
-  username: andreasterirus # change to your github username
+  username: andreasterrius # change to your github username
 
 # twitter:
 #   username: twitter_username # change to your twitter usernameA
@@ -46,8 +46,8 @@ social:
 
 # Site Verification Settings
 webmaster_verifications:
-  google: # fill in your Google verification code
-  bing: # fill in your Bing verification code
+  google: 2jkQv4BjiDHAhZ7oQGyIFMlRlhFV6JuhXp6aqXs
+  bing: 0618E38612BDACDC92EB5CE5F794BC01
   alexa: # fill in your Alexa verification code
   yandex: # fill in your Yandex verification code
   baidu: # fill in your Baidu verification code
