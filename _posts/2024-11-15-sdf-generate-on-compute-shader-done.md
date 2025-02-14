@@ -2,8 +2,8 @@
 title: Generating SDF on compute shader done!  
 author: andreas
 date: 2024-11-15 0:00:00 +0900
-categories: []
-tags: [graphics, sdf, compute-shader]
+categories: [Guide, Mesh Distance Field]
+tags: [graphics, sdf, raymarch, shadow, guide, mesh distance field, signed distance field, opengl, c++]
 ---
 I have managed to generate the SDF in compute shader. It can calculate 64x64x64 very fast and is a very large timesaver, although it can be quite hard to debug if there are issues during the generation process
 

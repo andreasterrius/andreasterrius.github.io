@@ -2,8 +2,8 @@
 title: Generating SDF on compute shader 
 author: andreas
 date: 2024-10-06 13:00:00 +0900
-categories: []
-tags: [graphics, sdf, compute-shader]
+categories: [Guide, Mesh Distance Field]
+tags: [graphics, sdf, raymarch, shadow, guide, mesh distance field, signed distance field, opengl, c++, compute shader]
 ---
 Since generating the SDF in CPU is quite slow, we're going to move the generation of the SDF 3D Texture to the GPU. I will be using the compute shader to do this, while also trying to learn how to use them.
 

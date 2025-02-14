@@ -2,8 +2,8 @@
 title: Packing 3D SDF to a 2D Texture  
 author: andreas
 date: 2024-11-25 3:00:00 +0900
-categories: []
-tags: [graphics, sdf, raymarch]
+categories: [Guide, Mesh Distance Field]
+tags: [graphics, sdf, raymarch, shadow, guide, mesh distance field, signed distance field, opengl, c++]
 ---
 A week ago, I managed to generate SDF textures for some arbritary model using compute shader. However passing a lot of 3D textures to the shader is not that easy, especially if we have many objects later in our scene.
 

@@ -2,8 +2,8 @@
 title: Raymarching 3D Texture SDF on fragment shader 
 author: andreas
 date: 2024-10-14 17:00:00 +0900
-categories: []
-tags: [graphics, sdf]
+categories: [Guide, Mesh Distance Field]
+tags: [graphics, sdf, raymarch, shadow, guide, mesh distance field, signed distance field, opengl, c++]
 ---
 While working on the generation of 3d texture SDF on fragment shader, I decided to finish the raymarch SDF on gpu first. I just finished it, so it should still contain some bugs. Will look into it later-ish
 
