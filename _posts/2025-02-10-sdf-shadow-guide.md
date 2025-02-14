@@ -2,7 +2,7 @@
 title: '[Guide] Mesh Distance Field + Shadow'
 author: andreas
 date: 2025-02-14 10:00:00 +0900
-categories: [Guide, Mesh Distance Field]
+categories: []
 tags: [graphics, sdf, raymarch, shadow, guide, mesh distance field, signed distance field, opengl, c++]
 ---
 # What is it?
