@@ -12,10 +12,10 @@ A **Mesh Distance Field** (MDF) is another representation of a 3D mesh. It store
 *Dynamic shadows generated from raymarching mesh distance field.*
 
 
-### Pros:
+## Pros:
 - Cheaper to query compared to a full raytrace of the triangle mesh.
 - Can be accelerated even more with acceleration structures such as kd-tree.
-### Cons:
+## Cons:
 - Generating the MDF can be quite tricky to implement and prone to errors.
 - Shapes such as small foliage leaves might be quite tricky to represent with MDFs.
 - Needs extra work to handle alpha/transparency layers.
@@ -49,11 +49,12 @@ There are some other included files, but most of them can be checked from the in
 I will be copy pasting the snippets of the code, if you want to check the full code you can also check the end of this guide.
 
 ---
-### 1. Generate mesh distance field (MDF) using compute shader.
+## 1. Generate mesh distance field (MDF) using compute shader.
 We only generate the mesh distance field once, we can also save it and load it so we don't need to generate it for each application run. For illustration purposes, I will be using 2D drawings, but you can imagine it as a 3D object, the principle should remain the same.
 
 1. Load the mesh, we are using assimp in this case (wrapped in [Model class](https://github.com/andreasterrius/AletherEngine/blob/master/src/data/model.cpp))
 ![MDF1](../assets/img/post_img/2025-02-10-sdf-shadow-guide/mdf1.png)
+
 >**_NOTE_**: The span of the MDF will be generated from bigger RED bounding box. 
 > During the raymarch later if we're still outside we will step as much as the distance to the ORANGE bounding box. This guarantees that the raymarch point is inside the MDF instead of at the boundaries. 
 ```c++
@@ -266,7 +267,7 @@ Some visualization (red = inside, outside cubes are not shown):
 
 ---
 
-### 2. Raster the 3D scene as normal.
+## 2. Raster the 3D scene as normal.
 In this step, you basically just render the scene as normal.
 1. Load the render_shader 
 The render_shader is just a normal blinn-phong shader from LearnOpenGL tutorials, we will modify it with raymarching on the next step.
@@ -306,7 +307,7 @@ void render_scene(unsigned int mdf, Transform &monkey_transform,
 ```
 
 ---
-### 3. During raster, do occlusion check from fragment to light.
+## 3. During raster, do occlusion check from fragment to light.
 1. Pass the MDF information to the render_shader
 ```c++
   // pass the mdf information
