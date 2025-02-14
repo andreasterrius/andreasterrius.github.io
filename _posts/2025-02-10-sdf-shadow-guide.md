@@ -15,6 +15,7 @@ A **Mesh Distance Field** (MDF) is another representation of a 3D mesh. It store
 ## Pros:
 - Cheaper to query compared to a full raytrace of the triangle mesh.
 - Can be accelerated even more with acceleration structures such as kd-tree.
+
 ## Cons:
 - Generating the MDF can be quite tricky to implement and prone to errors.
 - Shapes such as small foliage leaves might be quite tricky to represent with MDFs.
@@ -33,6 +34,7 @@ If you want to follow along, you probably need to be familiar with the following
     - Compute Shaders: https://learnopengl.com/Guest-Articles/2022/Compute-Shaders/Introduction
 
 You can find the code used here: 
+
 | Link | Description |
 |---|---|
 | [main.cpp](https://github.com/andreasterrius/AletherEngine/blob/master/cmd/mesh_distance_field_tutorial/main.cpp) | contains the the int main() and all the opengl setups
@@ -57,6 +59,7 @@ We only generate the mesh distance field once, we can also save it and load it s
 
 >**_NOTE_**: The span of the MDF will be generated from bigger RED bounding box. 
 > During the raymarch later if we're still outside we will step as much as the distance to the ORANGE bounding box. This guarantees that the raymarch point is inside the MDF instead of at the boundaries. 
+
 ```c++
 // Load using assimp.
 const aiScene *scene = importer.ReadFile(
@@ -117,6 +120,7 @@ auto outer_bb = monkey_mesh.boundingBox.apply_scale(Transform{
     glBindBufferBase(GL_UNIFORM_BUFFER, 4, ubo);
   }
 ```
+
 4. Create 3D texture to hold the resulting MDF generation
 ```c++
   unsigned int texture_id;
@@ -136,6 +140,7 @@ auto outer_bb = monkey_mesh.boundingBox.apply_scale(Transform{
     glBindTexture(GL_TEXTURE_3D, 0);
   }
 ```
+
 5. Run the compute shader
 ```c++
   // Run the compute shader
@@ -192,6 +197,7 @@ vec3 cube_size = vec3((outer_bb_max.x - outer_bb_min.x) / image_size.x,
 // calculate the world pos for this cube_center_pos
 vec3 cube_center_pos = (outer_bb_min + cube_size / vec3(2)) + cube_size * vec3(texel_coord);
 ```
+
 8. Now, we will try to find the distance from cube_center_pos to all triangles. 
 There are some other functions called from this code, you can take a look at them [here](https://github.com/andreasterrius/AletherEngine/blob/master/src/renderer/sdf_generator_gpu_v2_shared.cpp) (note: both glsl and .cpp shared the code for debugging purposes).
 ```glsl
@@ -249,7 +255,6 @@ There are some other functions called from this code, you can take a look at the
   imageStore(imgOutput, texel_coord, vec4(shortest_distance, 0.0, 0.0, 0.0));
 ```
 
-
 9. The MDF will be generated!
 ![Generated Distasnce](../assets/img/post_img/2025-02-10-sdf-shadow-guide/mdf7.png)
 
@@ -278,6 +283,7 @@ The render_shader is just a normal blinn-phong shader from LearnOpenGL tutorials
              (std::string(ALE_ROOT_PATH) + "/src/shaders/mdf/scene_renderer.fs")
                  .c_str());
 ```
+
 2. Then render the scene
 ```c++
 void render_scene(unsigned int mdf, Transform &monkey_transform,
@@ -307,7 +313,9 @@ void render_scene(unsigned int mdf, Transform &monkey_transform,
 ```
 
 ---
+
 ## 3. During raster, do occlusion check from fragment to light.
+
 1. Pass the MDF information to the render_shader
 ```c++
   // pass the mdf information
