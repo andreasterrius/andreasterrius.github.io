@@ -5,6 +5,7 @@ date: 2025-02-14 10:00:00 +0900
 categories: []
 image : '../assets/img/post_img/2025-02-10-sdf-shadow-guide/mdf9.png'
 tags: [graphics, sdf, raymarch, shadow, guide, mesh distance field, signed distance field, opengl, c++]
+description: "Sharing how to generate a MDF and create shadows using them"
 ---
 ## What is it?
 

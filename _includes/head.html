@@ -50,6 +50,12 @@
 
   {{ seo_tags }}
 
+  <!-- Capture description -->
+  {%- capture og_description -%}
+    <meta property="og:description" content="{{ page.excerpt | strip_html | default: site.description }}" />
+  {%- endcapture -%}
+
+
   <title>
     {%- unless page.layout == 'home' -%}
       {{ page.title | append: ' | ' }}
