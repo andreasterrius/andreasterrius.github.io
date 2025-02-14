@@ -3,6 +3,7 @@ title: '[Guide] Mesh Distance Field + Shadow'
 author: andreas
 date: 2025-02-14 10:00:00 +0900
 categories: []
+image : '../assets/img/post_img/2025-02-10-sdf-shadow-guide/mdf9.png'
 tags: [graphics, sdf, raymarch, shadow, guide, mesh distance field, signed distance field, opengl, c++]
 ---
 ## What is it?
@@ -250,7 +251,7 @@ There are some other functions called from this code, you can take a look at the
       // NOTE:
       // There are other methods, but I will probably fully explain it in another article.
       // for example, unreal checks whether 50% of hit faces is backface/not to determine it
-      // of another way we can trace from point on X or Y or Z axis and count odd/even intersection.
+      // or another way we can trace from point on X or Y or Z axis and count odd/even intersection.
       float t = dot(shortest_normal, normalize(cube_center_pos - shortest_point));
       if (t < 0) {
         shortest_distance = -abs(shortest_distance);
@@ -260,7 +261,7 @@ There are some other functions called from this code, you can take a look at the
       imageStore(imgOutput, texel_coord, vec4(shortest_distance, 0.0, 0.0, 0.0));
     ```
 
-9. The MDF will be generated!
+9. The MDF will be generated and saved to the 3D texture we created earlier.
 
     ![Generated Distance](../assets/img/post_img/2025-02-10-sdf-shadow-guide/mdf7.png)
 
@@ -430,6 +431,8 @@ In this step, you basically just render the scene as normal.
 | Intersection not found | ![MDF Intersection Not Found](../assets/img/post_img/2025-02-10-sdf-shadow-guide/mdf-not-found.png) |
 
 We can get some sweet shadows!
+![MDF shadows 3](../assets/img/post_img/2025-02-10-sdf-shadow-guide/mdf11.png)
+![MDF shadows 2](../assets/img/post_img/2025-02-10-sdf-shadow-guide/mdf10.png)
 ![MDF shadows](../assets/img/post_img/2025-02-10-sdf-shadow-guide/mdf9.png)
 ![Overview](../assets/img/post_img/2025-02-10-sdf-shadow-guide/mdf-general.gif)
 
