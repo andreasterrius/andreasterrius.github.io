@@ -34,7 +34,7 @@ As far as I understand from my short period of dealing with MDF, here are the pr
   - Shapes such as small foliage leaves might be quite tricky to represent with MDFs.
   - Needs extra work to handle alpha/transparency layers.
 
-I haven't compared the performance and behavior of this technique with [https://en.wikipedia.org/wiki/Shadow_mapping](**standard/cascaded shadow mapping**). Hopefully, I will discover them along the way by developing my game/engine!
+I haven't compared the performance and behavior of this technique with [**standard/cascaded shadow mapping**](https://en.wikipedia.org/wiki/Shadow_mapping). Hopefully, I will discover them along the way by developing my game/engine!
 
 ## Following along
 If you want to follow along, this guide is aimed towards more of an intermediate user. You need to be familiar with the following:
