@@ -15,7 +15,7 @@ A **Mesh Distance Field** (MDF) is another representation of a 3D mesh. It store
 
 ## Why use MDF?
 
-Becauuse UE5's Lumen seems to rely on MDF to help with lighting calculation, you can find the UE5 documentation describing it [here](https://dev.epicgames.com/documentation/en-us/unreal-engine/mesh-distance-fields-in-unreal-engine). And we know UE5 can produce very beautiful looking lighting in realtime combined with Nanite (geometry clustering/virtualization).
+UE5's [Lumen](https://dev.epicgames.com/documentation/en-us/unreal-engine/lumen-global-illumination-and-reflections-in-unreal-engine) seems to rely on MDF to help with lighting calculation, you can find the UE5 documentation describing it [here](https://dev.epicgames.com/documentation/en-us/unreal-engine/mesh-distance-fields-in-unreal-engine). And we know UE5 can produce very beautiful looking lighting in realtime combined with Nanite (geometry clustering/virtualization).
 
 
 ![MDF UE5](../assets/img/post_img/2025-02-10-sdf-shadow-guide/mdf-ue5.png)
@@ -34,7 +34,7 @@ As far as I understand from my short period of dealing with MDF, here are the pr
   - Shapes such as small foliage leaves might be quite tricky to represent with MDFs.
   - Needs extra work to handle alpha/transparency layers.
 
-I haven't compared the performance and behavior of this technique with **standard/cascaded shadow mapping**. Hopefully, I will discover them along the way by developing my game/engine!
+I haven't compared the performance and behavior of this technique with [https://en.wikipedia.org/wiki/Shadow_mapping](**standard/cascaded shadow mapping**). Hopefully, I will discover them along the way by developing my game/engine!
 
 ## Following along
 If you want to follow along, this guide is aimed towards more of an intermediate user. You need to be familiar with the following:
