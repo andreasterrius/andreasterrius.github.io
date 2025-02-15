@@ -5,7 +5,7 @@ date: 2025-02-14 10:00:00 +0900
 categories: []
 image : '../assets/img/post_img/2025-02-10-sdf-shadow-guide/mdf9.png'
 tags: [graphics, sdf, raymarch, shadow, guide, mesh distance field, signed distance field, opengl, c++]
-description: "Sharing how to generate a MDF and create shadows using them"
+description: "Create shadows using Mesh Distance Field (MDF)"
 ---
 ## What is it?
 
@@ -13,35 +13,46 @@ A **Mesh Distance Field** (MDF) is another representation of a 3D mesh. It store
 ![Overview](../assets/img/post_img/2025-02-10-sdf-shadow-guide/mdf-general.gif)
 *Dynamic shadows generated from raymarching mesh distance field.*
 
-### Pros
-- Cheaper to query compared to a full raytrace of the triangle mesh.
-- Can be accelerated even more with acceleration structures such as kd-tree.
+## Why use MDF?
 
-### Cons
-- Generating the MDF can be quite tricky to implement and prone to errors.
-- Shapes such as small foliage leaves might be quite tricky to represent with MDFs.
-- Needs extra work to handle alpha/transparency layers.
+Becauuse UE5's Lumen seems to rely on MDF to help with lighting calculation, you can find the UE5 documentation describing it [here](https://dev.epicgames.com/documentation/en-us/unreal-engine/mesh-distance-fields-in-unreal-engine). And we know UE5 can produce very beautiful looking lighting in realtime combined with Nanite (geometry clustering/virtualization).
 
-I have not yet fully compare the performance and behavior of this technique compared to **standard/cascaded shadow mapping**, but I will probably try it out as I further develop my game or engine!
+
+![MDF UE5](../assets/img/post_img/2025-02-10-sdf-shadow-guide/mdf-ue5.png)
+*From UE5 docs, visualization of rendering a mesh using MDF*
+
+---
+
+As far as I understand from my short period of dealing with MDF, here are the pros and cons of this method:
+
+- **Pros**
+  - Cheaper to query compared to a full raytrace of the triangle mesh.
+  - Can be accelerated even more with acceleration structures such as kd-tree.
+
+- **Cons**
+  - Generating the MDF can be quite tricky to implement and prone to errors.
+  - Shapes such as small foliage leaves might be quite tricky to represent with MDFs.
+  - Needs extra work to handle alpha/transparency layers.
+
+I haven't compared the performance and behavior of this technique with **standard/cascaded shadow mapping**. Hopefully, I will discover them along the way by developing my game/engine!
 
 ## Following along
-If you want to follow along, you probably need to be familiar with the following:
+If you want to follow along, this guide is aimed towards more of an intermediate user. You need to be familiar with the following:
 - Game dev mathematics (linear algebra)
 - Some familiarity with c++, glfw, assimp, glm, and glad.
 - Modern OpenGL rendering pipeline (with vertex and fragment shaders)
     - [SSBO](https://www.khronos.org/opengl/wiki/Shader_Storage_Buffer_Object)
     - [UBO](https://learnopengl.com/Advanced-OpenGL/Advanced-GLSL)
-    - [Compute Shaders](https://learnopengl.com/Guest-Articles/2022/Compute-Shaders/Introduction) (requires OpenGL 4.2, so mac people probably can generate it on CPU instead of GPU since their latest supported OGL is 4.1)
+    - [Compute Shaders](https://learnopengl.com/Guest-Articles/2022/Compute-Shaders/Introduction) (requires OpenGL 4.2, so macOS users can generate it on CPU instead of GPU since their latest supported OGL is 4.1)
 
-You can find the code used here: 
+You can find the full source code below: 
 
 | Link | Description |
 |---|---|
 | [main.cpp](https://github.com/andreasterrius/AletherEngine/blob/master/cmd/mesh_distance_field_tutorial/main.cpp) | contains the the int main() and all the opengl setups
 | [Compute Shader.cs](https://github.com/andreasterrius/AletherEngine/blob/master/src/renderer/sdf_generator_gpu_v2.cs)<br/>[Compute Shader (include)](https://github.com/andreasterrius/AletherEngine/blob/master/src/renderer/sdf_generator_gpu_v2_shared.cpp) | The compute shader includes the shared.cpp so it can be run on CPU side as well (for debugging purposes) 
 | [Scene Shader VS](https://github.com/andreasterrius/AletherEngine/blob/master/src/shaders/mdf/scene_renderer.vs)<br/>[Scene Shader FS](https://github.com/andreasterrius/AletherEngine/blob/master/src/shaders/mdf/scene_renderer.fs)<br/>[Raymarcher (include)](https://github.com/andreasterrius/AletherEngine/blob/master/src/shaders/mdf/sdf_atlas_3d.fs) | Normal vertex shader and fragment shader with a raymarcher code pulled in with #include
-
-There are some other included files, but most of them can be checked from the include paths directly.
+ 
 
 ## Pipeline overview
 1. Generate **mesh distance field (MDF).**
@@ -54,7 +65,7 @@ Remember to check the full code if you're confused as I will only be posting sni
 
 ### 1. Generate mesh distance field (MDF) using compute shader.
 We only generate the mesh distance field once, we can also save it and load it so we don't need to generate it for each application run. For illustration purposes, I will be using 2D drawings, but you can imagine it as a 3D object, the principle should remain the same.
-1. Load the mesh, we are using assimp in this case (wrapped in [Model class](https://github.com/andreasterrius/AletherEngine/blob/master/src/data/model.cpp))
+1. Load the mesh, we are using [assimp](https://github.com/assimp/assimp) in this case (wrapped in [Model class](https://github.com/andreasterrius/AletherEngine/blob/master/src/data/model.cpp))
     ![MDF1](../assets/img/post_img/2025-02-10-sdf-shadow-guide/mdf1.png)
 
     >**_NOTE_**: The span of the MDF will be generated using the RED (bigger) bounding box.<br/> 
@@ -73,13 +84,13 @@ We only generate the mesh distance field once, we can also save it and load it s
         .scale = vec3(1.1, 1.1, 1.1),
     });
     ```
-2. Load the compute shader in preparation to generate the MDF.
+2. Load the compute shader as preparation to generate the MDF.
 
     ```c++
       auto mdf_generator_shader = ComputeShader(
           std::string(ALE_ROOT_PATH) + "/src/renderer/sdf_generator_gpu_v2.cs");
     ```
-3. Pass vertices, indices, bounding boxes data to the compute shader (SSBO and UBO).
+3. Pass vertices, indices, and bounding boxes data to the compute shader (with SSBO and UBO).
 
     ```c++
       glUseProgram(mdf_generator_shader.id);
@@ -156,8 +167,8 @@ We only generate the mesh distance field once, we can also save it and load it s
       }
     ```
 
-6. The compute shader will then generate our MDF, let's break it down one by one.
-Here are the bindings that the compute shader will receive (vertices, indices, bbox):
+6. The compute shader will then generate our MDF.
+Here are the bindings that the compute shader will receive (vertices, indices, and bbox):
 
     ```glsl
     layout (local_size_x = 1, local_size_y = 1, local_size_z = 1) in;
@@ -187,7 +198,7 @@ Here are the bindings that the compute shader will receive (vertices, indices, b
     };
     ```
 
-7. Since we're using `glDispatchCompute(mdf_resolution, mdf_resolution, mdf_resolution);`, the compute shader will be executed once for each for each cube_center_pos (blue point) shown below. 
+7. Since we're using `glDispatchCompute(mdf_resolution, mdf_resolution, mdf_resolution);`, the compute shader will be executed once for each for each `cube_center_pos` (blue point) shown below. 
 
     ![MDF4](../assets/img/post_img/2025-02-10-sdf-shadow-guide/mdf4.png)
     *The compute shader will run for every blue point (cube_center_pos).*
@@ -204,7 +215,7 @@ Here are the bindings that the compute shader will receive (vertices, indices, b
     vec3 cube_center_pos = (outer_bb_min + cube_size / vec3(2)) + cube_size * vec3(texel_coord);
     ```
 
-8. Now, we will try to find the distance from cube_center_pos to all triangles. 
+8. Now, we will try to find the distance from `cube_center_pos` to all triangles. 
 There are some other functions called from this code, you can take a look at them on [void generate_sdf(...)](https://github.com/andreasterrius/AletherEngine/blob/master/src/renderer/sdf_generator_gpu_v2_shared.cpp#L79) (note: both glsl and .cpp shared the code for debugging purposes).
 
     ```glsl
@@ -247,10 +258,10 @@ There are some other functions called from this code, you can take a look at the
       }
 
       // To determine sign, we will use dot product method here.
-      // Basically: if direction of (closest_point->cube_center_pos) is the same as  triangle normal direction
+      // Basically: if direction of (closest_point->cube_center_pos) is the same as triangle normal direction
       //    then INSIDE else OUTSIDE.
       // NOTE:
-      // There are other methods, but I will probably fully explain it in another article.
+      // There are other methods, but I will fully explain it in another article.
       // for example, unreal checks whether 50% of hit faces is backface/not to determine it
       // or another way we can trace from point on X or Y or Z axis and count odd/even intersection.
       float t = dot(shortest_normal, normalize(cube_center_pos - shortest_point));
@@ -282,9 +293,9 @@ There are some other functions called from this code, you can take a look at the
 
 ### 2. Raster the 3D scene as normal.
 In this step, you basically just render the scene as normal.
-1. Load the render_shader 
+1. Load the `render_shader` 
     
-    The render_shader is just a normal blinn-phong shader from LearnOpenGL tutorials, we will modify it with raymarching on the next step.
+    The render_shader is just a normal [blinn-phong shader](https://en.wikipedia.org/wiki/Blinn%E2%80%93Phong_reflection_model), we will modify it with raymarching on the next step.
 
     ```c++
       auto render_shader = Shader(
@@ -326,7 +337,7 @@ In this step, you basically just render the scene as normal.
 
 ### 3. During raster, do occlusion check from fragment to light.
 
-1. Pass the MDF information to the render_shader
+1. Pass the MDF information to the `render_shader`
 
     ```c++
       // pass the mdf information
@@ -347,7 +358,7 @@ In this step, you basically just render the scene as normal.
       glBindTexture(GL_TEXTURE_3D, mdf);
     ```
 
-2. Afterwards, let's modify the render_shader to include the raymarching code.
+2. Afterwards, let's modify the `render_shader` to include the raymarching code.
 
     ```glsl
     // on the scene_renderer.fs
@@ -363,7 +374,7 @@ In this step, you basically just render the scene as normal.
     }
     ```
 
-3. The ShadowCalculation code triggers the raymarch.
+3. The `ShadowCalculation` function triggers the raymarch.
 
     ```glsl
     float ShadowCalculation(vec3 fragPos, vec3 lightPos, vec3 normalDir)
@@ -439,16 +450,16 @@ We can get some sweet shadows!
 
 ---
 ## Onwards...
-My actual implementation is a bit trickier since I decide to repack the 3D texture to a 2D texture (flattening the Z to the X axis). This removes the texture interpolation but it's now possible to bind pass multiple objects more easily to the shader.
+My actual implementation is a bit trickier since I decide to repack the 3D texture to a 2D texture (flattening the Z to the X axis). This removes the texture sampler interpolation on the z axis, but makes it easier to pass multiple objects to the shader.
 
 Some possible points of improvements:
 - Soft shadows should be possible but I'm still cooking:
-    - The traditional way is probably to sample an area light multiple times and take the average, but this will be expensive.
-    - It seems to be possible to just hack the soft shadow based on distance, but I need to cook it a bit more.
-- Raymarch on a separate pass and not on the fragment shader since it's wastes performance.
-- The AxAxA resolution feels rigid, perhaps we can have higher resolution on more dense area of the mesh vs just uniformly spacing the distance field.
+    - The traditional way is to sample an area light multiple times and take the average, but this will be expensive.
+    - It should be possible to just hack the soft shadow based on distance, but I need to cook it a bit more.
+- Raymarch on a separate pass, not on the fragment shader since it's wastes performance.
+- The NxNxN resolution feels rigid, an idea is to have higher resolution on more dense area of the mesh rather than just uniformly spacing the distance field.
 - Try to get foliage (with transparency) implementation down.
-- Pass texture to the models and perhaps we can create a simple beautiful low poly scene just for fun!
+- Pass texture to the models so we can create a simple beautiful low poly scene just for fun!
 
 
 ## Resources used
