@@ -50,8 +50,8 @@ You can find the full source code below:
 | Link | Description |
 |---|---|
 | [main.cpp](https://github.com/andreasterrius/AletherEngine/blob/master/cmd/mesh_distance_field_tutorial/main.cpp) | contains the the int main() and all the opengl setups
-| [Compute Shader.cs](https://github.com/andreasterrius/AletherEngine/blob/master/src/renderer/sdf_generator_gpu_v2.cs)<br/>[Compute Shader (include)](https://github.com/andreasterrius/AletherEngine/blob/master/src/renderer/sdf_generator_gpu_v2_shared.cpp) | The compute shader includes the shared.cpp so it can be run on CPU side as well (for debugging purposes) 
-| [Scene Shader VS](https://github.com/andreasterrius/AletherEngine/blob/master/src/shaders/mdf/scene_renderer.vs)<br/>[Scene Shader FS](https://github.com/andreasterrius/AletherEngine/blob/master/src/shaders/mdf/scene_renderer.fs)<br/>[Raymarcher (include)](https://github.com/andreasterrius/AletherEngine/blob/master/src/shaders/mdf/sdf_atlas_3d.fs) | Normal vertex shader and fragment shader with a raymarcher code pulled in with #include
+| [Compute Shader.cs](https://github.com/andreasterrius/AletherEngine/blob/master/resources/shaders/sdf/sdf_generator_gpu_v2.cs)<br/>[Compute Shader (include)](https://github.com/andreasterrius/AletherEngine/blob/master/src/graphics/sdf/sdf_generator_gpu_v2_shared.cpp) | The compute shader includes the shared.cpp so it can be run on CPU side as well (for debugging purposes) 
+| [Scene Shader VS](https://github.com/andreasterrius/AletherEngine/blob/master/cmd/mesh_distance_field_tutorial/scene_renderer.vs)<br/>[Scene Shader FS](https://github.com/andreasterrius/AletherEngine/blob/master/cmd/mesh_distance_field_tutorial/scene_renderer.fs)<br/>[Raymarcher (include)](https://github.com/andreasterrius/AletherEngine/blob/master/cmd/mesh_distance_field_tutorial/sdf_atlas_3d.fs) | Normal vertex shader and fragment shader with a raymarcher code pulled in with #include
  
 
 ## Pipeline overview
