@@ -16,10 +16,10 @@ timezone: Asia/Tokyo
 
 title: Andreas Terrius # the main title
 
-tagline: A blog dedicated towards exploring graphics programming, data analytics, machine learning and so forth with zig and C++. # it will display as the sub-title
+tagline: A blog dedicated towards exploring graphics programming, data analytics, machine learning and so forth with C++. # it will display as the sub-title
 
 description: >- # used by seo meta and the atom feed
-  A blog dedicated towards researching graphics programming topics such as mesh distance fields, raymarching, raytracing. Mainly uses C++ and Zig programming language. 
+  A blog dedicated towards researching graphics programming topics such as mesh distance fields, raymarching, raytracing. Mainly uses C++. 
 
 # Fill in the protocol & hostname for your site.
 # e.g. 'https://username.github.io', note that it does not end with a '/'.
