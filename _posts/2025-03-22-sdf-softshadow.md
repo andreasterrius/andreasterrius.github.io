@@ -8,7 +8,10 @@ tags: [graphics, sdf, raymarch, shadow, guide, mesh distance field, signed dista
 description: "Extending SDF raymarch to allow soft shadow"
 ---
 ## What is it?
+Previously:
+![Overview](../assets/img/post_img/2025-02-10-sdf-shadow-guide/mdf-general.gif)
 
+With Soft Shadows:
 ![Explain](../assets/img/post_img/2025-03-22-sdf-softshadow/soft-shadow-monkey.gif)
 
 
@@ -35,7 +38,7 @@ First, we will need to sample and calculate for each raymarch point. However, we
 This could cause issue if **k** is small (wide shadow), then the shadow can be cut-off by the bounding box (caused by not evaluating shadows outside the outer bounding box). This is a tradeoff that we will take, because I want to move on to other stuff for now.
 ![Cutoff](../assets/img/post_img/2025-03-22-sdf-softshadow/soft-shadow-cutoff.png)
 
-After we have sampled, we will then just march the ray accordingly.
+After we have sampled `shadow`, we will then just step on the ray accordingly.
 ```glsl
   t += clamp(dist * 0.5, -MIN_STEP_DIST, MAX_STEP_DIST);
   rayWo = oriRayWo + rayWd * t;
